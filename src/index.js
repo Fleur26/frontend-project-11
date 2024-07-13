@@ -15,4 +15,9 @@ console.log(err.name); // ValidationError
 console.log(err.errors); // ['Not a proper email']
 });
 
-
+const button = document.querySelector('#but');
+const input = document.querySelector('#fInput');
+button.addEventListener('click',(e)=>{
+    input.focus();
+    input.value = '';
+});
