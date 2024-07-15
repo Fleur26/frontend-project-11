@@ -3,22 +3,19 @@ import * as yup from 'yup';
 
 
 let schema = yup.object().shape({
-email: yup.string().url('Not a proper url'), // pass your error message string
+    website: string().url().nullable()
 });
 
 // check validity
-schema
-.validate({
-email: 'not.a.valid.url',
-})
-.catch((err) => {
-document.querySelector('#fInput').classList.add('red');
-console.log(err.name); // ValidationError
-console.log(err.errors); // ['Not a proper email']
-});
+let url = await schema.validate(await fetchUser());
 
-const button = document.querySelector('#but');
-const input = document.querySelector('#fInput');
+if(!url){
+    document.querySelector('#url-input').classList.add('red');
+    console.log('not right');
+}
+
+const button = document.querySelector('#btn');
+const input = document.querySelector('#url-input');
 button.addEventListener('click',(e)=>{
     input.focus();
     input.value = '';
