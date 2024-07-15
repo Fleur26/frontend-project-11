@@ -1,13 +1,15 @@
 import * as yup from 'yup';
 
+
+
 let schema = yup.object().shape({
-email: yup.string().email('Not a proper email'), // pass your error message string
+email: yup.string().url('Not a proper url'), // pass your error message string
 });
 
 // check validity
 schema
 .validate({
-email: 'not.a.valid.email',
+email: 'not.a.valid.url',
 })
 .catch((err) => {
 document.querySelector('#fInput').classList.add('red');
