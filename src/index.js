@@ -12,15 +12,31 @@ const state = {
   },
 };
 
+function render (state) {
+  const input = document.querySelector('#url-input');
+  const submit = document.querySelector('.rss-form ');
+
+  submit.disabled = state.form.state === 'valid';
+  if(state.form.state === 'valid'){
+    input.classList.remove('is-invalid')
+    submit.disabled = true;
+  }
+  else{
+    input.classList.add('is-invalid');
+    console.log(state.form.state);
+  }
+}
+
 function validation (url) {
   let schema = yup.string().url().nullable().min(3)
   .validate(url)
-  .then(state.form.state = 'valid')
+  .then((e => {
+    state.form.state = 'valid';
+    console.log(state.form.state);
+}))
   .catch((e => {
-    const input = document.querySelector('#url-input');
     state.form.state = 'invalid'
     state.form.errors = e; 
-    input.classList.add('is-invalid');
   }));
   console.log(schema);
   return schema;
@@ -33,6 +49,7 @@ const form = document.querySelector('.rss-form ');
   const input = document.querySelector('#url-input');
   state.form.data.url = input.value;
   validation(state.form.data.url);
+  render(state);
   input.focus();
   input.value = '';
 })
