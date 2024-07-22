@@ -1,7 +1,9 @@
 import * as yup from 'yup';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import i18next from 'https://cdn.jsdelivr.net/npm/i18next@23.12.2/+esm'
+import i18next from 'i18next';
+import en from '../locales/en/translation.json'
+import ru from '../locales/ru/translation.json'
 
 const state = {
   form: {
@@ -60,18 +62,17 @@ const form = document.querySelector('.rss-form ');
 
 
 
-
 i18next.init({
   lng: 'en', // if you're using a language detector, do not define the lng option
   debug: true,
   resources: {
-    en: {
-      translation: {
-        "key": "hello world"
-      }
-    }
+    en,
+    ru
   }
+})
+.then(function(t) {
+  // initialized and ready to go!
+  console.log(i18next.t('mainHeader'));
+  document.getElementsByTagName('h1').innerHTML = i18next.t('mainHeader');
 });
-// initialized and ready to go!
-// i18next is already initialized, because the translation resources where passed via init function
-document.getElementById('output').innerHTML = i18next.t('key');
+
