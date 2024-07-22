@@ -1,12 +1,14 @@
 import * as yup from 'yup';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import i18next from 'https://cdn.jsdelivr.net/npm/i18next@23.12.2/+esm'
 
 const state = {
   form: {
     state: 'valid',
     data: {
       url: '',
+      links: []
     },
     errors: [],
   },
@@ -17,9 +19,10 @@ function render (state) {
   const submit = document.querySelector('.rss-form ');
 
   submit.disabled = state.form.state === 'valid';
-  if(state.form.state === 'valid'){
+  if (state.form.state === 'valid'){
     input.classList.remove('is-invalid')
-    submit.disabled = true;
+    state.form.data.links.push(input.value);
+    console.log(state.form.data.links);
   }
   else{
     input.classList.add('is-invalid');
@@ -28,15 +31,15 @@ function render (state) {
 }
 
 function validation (url) {
-  let schema = yup.string().url().nullable().min(3)
+  let schema = yup.string().url('must be a url').nullable('input cannot be null')
   .validate(url)
   .then((e => {
     state.form.state = 'valid';
-    console.log(state.form.state);
 }))
   .catch((e => {
     state.form.state = 'invalid'
     state.form.errors = e; 
+    console.log(e)
   }));
   console.log(schema);
   return schema;
@@ -58,3 +61,17 @@ const form = document.querySelector('.rss-form ');
 
 
 
+i18next.init({
+  lng: 'en', // if you're using a language detector, do not define the lng option
+  debug: true,
+  resources: {
+    en: {
+      translation: {
+        "key": "hello world"
+      }
+    }
+  }
+});
+// initialized and ready to go!
+// i18next is already initialized, because the translation resources where passed via init function
+document.getElementById('output').innerHTML = i18next.t('key');

@@ -1,0 +1,10 @@
+{
+  "title":  "Hexlet Frontend Project",
+  "readButton": "Read full",
+  "close": "Close",
+  "mainHeader": "RSS aggregator",
+  "leadText": "Keep reading RSS today! It's easy, it's beautiful.",
+  "link": "RSS link",
+  "add": "Add",
+  "example": "Example: https://lorem-rss.hexlet.app/feed"
+}
