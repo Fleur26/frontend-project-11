@@ -1,4 +1,4 @@
-{
+{"translation": {
   "title":  "Hexlet Frontend Project",
   "readButton": "Read full",
   "close": "Close",
@@ -6,5 +6,9 @@
   "leadText": "Keep reading RSS today! It's easy, it's beautiful.",
   "link": "RSS link",
   "add": "Add",
-  "example": "Example: https://lorem-rss.hexlet.app/feed"
-}
+  "example": "Example: https://lorem-rss.hexlet.app/feed",
+    "url": "must be a url",
+    "null": "input cannot be null",
+    "string": "cannot be number"
+  
+}}

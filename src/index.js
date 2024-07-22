@@ -2,6 +2,9 @@ import * as yup from 'yup';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import i18next from 'i18next';
+import en from '../locales/en.json'
+import ru from '../locales/ru.json'
+import { setLocale } from 'yup';
 
 const state = {
   form: {
@@ -13,6 +16,29 @@ const state = {
     errors: [],
   },
 };
+
+const promise = i18next.init({
+  lng: 'en', // if you're using a language detector, do not define the lng option
+  debug: true,
+  resources: {
+    en,
+    ru
+  }
+})
+.then(function(t) {
+  // initialized and ready to go!
+  document.getElementsByTagName('title')[0].innerHTML = i18next.t('title');
+  document.getElementById('hAgregattor').innerHTML = i18next.t('mainHeader');
+  document.getElementsByClassName('lead')[0].innerHTML = i18next.t('leadText');
+  document.getElementById('btnSub').innerHTML = i18next.t('add');
+  document.getElementById('holdInput').innerHTML = i18next.t('link');
+  document.getElementById('holdInput').innerHTML = i18next.t('link');
+  document.getElementById('exmpl').innerHTML = i18next.t('example');
+
+})
+.catch(e => {
+console.log(e);
+})
 
 function render (state) {
   const input = document.querySelector('#url-input');
@@ -31,7 +57,7 @@ function render (state) {
 }
 
 function validation (url) {
-  let schema = yup.string().url('must be a url').nullable('input cannot be null')
+  let schema = yup.string('string').url('url').nullable('null')
   .validate(url)
   .then((e => {
     state.form.state = 'valid';
@@ -39,7 +65,8 @@ function validation (url) {
   .catch((e => {
     state.form.state = 'invalid'
     state.form.errors = e; 
-    console.log(e)
+    console.log(e);
+    console.log("ERRROR: " + i18next.t(e));
   }));
   console.log(schema);
   return schema;
@@ -60,28 +87,3 @@ const form = document.querySelector('.rss-form ');
 
 
 
-i18next.init({
-  lng: 'en', // if you're using a language detector, do not define the lng option
-  debug: true,
-  resources: {
-    en: {
-      translation: {
-        "title":  "rffsdf",
-        "readButton": "Read full",
-        "close": "Close",
-        "mainHeader": "RSS aggregator",
-        "leadText": "Keep reading RSS today! It's easy, it's beautiful.",
-        "link": "RSS link",
-        "add": "Add",
-        "example": "Example: https://lorem-rss.hexlet.app/feed"
-      }
-    }
-  }
-}).then(function(t) {
-  // initialized and ready to go!
-  const d = document.getElementById('lol').innerHTML = i18next.t('mainHeader');
-  console.log(d.value);
-  console.log(d);
-
-  d.innerHTML = i18next.t('mainHeader');
-});

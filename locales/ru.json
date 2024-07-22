@@ -1,5 +1,5 @@
-{
-    "title":  "Хекслет Фронтенд Проект",
+{  "translation":{
+    "title":  "Фронтенд Проект Хекслет",
     "readButton": "Читать полностью",
     "close": "Закрыть",
     "mainHeader": "RSS агрегатор",
@@ -7,4 +7,4 @@
     "link": "Ссылка RSS",
     "add": "Добавить",
     "example": "Пример: https://lorem-rss.hexlet.app/feed"
-  }
+  }}
