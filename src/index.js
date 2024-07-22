@@ -2,8 +2,6 @@ import * as yup from 'yup';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import i18next from 'i18next';
-import en from '../locales/en/translation.json'
-import ru from '../locales/ru/translation.json'
 
 const state = {
   form: {
@@ -66,13 +64,24 @@ i18next.init({
   lng: 'en', // if you're using a language detector, do not define the lng option
   debug: true,
   resources: {
-    en,
-    ru
+    en: {
+      translation: {
+        "title":  "rffsdf",
+        "readButton": "Read full",
+        "close": "Close",
+        "mainHeader": "RSS aggregator",
+        "leadText": "Keep reading RSS today! It's easy, it's beautiful.",
+        "link": "RSS link",
+        "add": "Add",
+        "example": "Example: https://lorem-rss.hexlet.app/feed"
+      }
+    }
   }
-})
-.then(function(t) {
+}).then(function(t) {
   // initialized and ready to go!
-  console.log(i18next.t('mainHeader'));
-  document.getElementsByTagName('h1').innerHTML = i18next.t('mainHeader');
-});
+  const d = document.getElementById('lol').innerHTML = i18next.t('mainHeader');
+  console.log(d.value);
+  console.log(d);
 
+  d.innerHTML = i18next.t('mainHeader');
+});
