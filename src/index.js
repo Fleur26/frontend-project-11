@@ -60,6 +60,8 @@ function validation (url) {
   let schema = yup.string('string').url('url').nullable('null')
   .validate(url)
   .then((e => {
+    state.form.data.links.push(url); 
+    console.log(state.form.data.links);
     state.form.state = 'valid';
 }))
   .catch((e => {
