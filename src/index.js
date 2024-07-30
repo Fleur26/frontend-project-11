@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import i18next from 'i18next';
 import en from '../locales/en.json'
 import ru from '../locales/ru.json'
-import { setLocale } from 'yup';
 
 const state = {
   form: {
@@ -47,8 +46,6 @@ function render (state) {
   submit.disabled = state.form.state === 'valid';
   if (state.form.state === 'valid'){
     input.classList.remove('is-invalid')
-    state.form.data.links.push(input.value);
-    console.log(state.form.data.links);
   }
   else{
     input.classList.add('is-invalid');
@@ -74,6 +71,7 @@ function validation (url) {
   return schema;
 }
 
+const container= document.querySelector('#sm');
 
 const form = document.querySelector('.rss-form ');
   form.addEventListener('submit', (e) => {
@@ -84,8 +82,11 @@ const form = document.querySelector('.rss-form ');
   render(state);
   input.focus();
   input.value = '';
+  parsing(state.form.data.url)
 })
 
-
-
-
+function parsing (url){
+const parser = new DOMParser();
+const doc = parser.parseFromString(url, "text/html");
+console.log(doc);
+}
