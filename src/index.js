@@ -87,12 +87,13 @@ const form = document.querySelector('.rss-form ');
 
 function parsing (url){
 const parser = new DOMParser();
-const doc = parser.parseFromString(url, "text/html");
 fetch(`https://allorigins.hexlet.app/get?url=${encodeURIComponent(url)}`)
   .then(response => {
     if (response.ok) return response.json()
     throw new Error('Network response was not ok.')
   })
-  .then(data => console.log(data.contents));
-console.log(doc);
+  .then(data => {
+    const doc = parser.parseFromString(data.contents, "text/html");
+    console.log(doc.getElementsByTagName('title'));
+  });
 }
