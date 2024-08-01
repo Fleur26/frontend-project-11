@@ -94,6 +94,13 @@ fetch(`https://allorigins.hexlet.app/get?url=${encodeURIComponent(url)}`)
   })
   .then(data => {
     const doc = parser.parseFromString(data.contents, "text/html");
-    console.log(doc.getElementsByTagName('title'));
+    const items = doc.getElementsByTagName('title');
+    const parent = document.querySelector('#cnt');
+    let arr = Array.from(items);
+
+    for (let i = 0; i < items.length; i++) {
+      console.log(arr[i].innerHTML);
+      parent.appendChild(arr[i].cloneNode(true));
+    }
   });
 }
