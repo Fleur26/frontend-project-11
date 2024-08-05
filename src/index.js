@@ -95,12 +95,24 @@ fetch(`https://allorigins.hexlet.app/get?url=${encodeURIComponent(url)}`)
   .then(data => {
     const doc = parser.parseFromString(data.contents, "text/html");
     const items = doc.getElementsByTagName('title');
-    const parent = document.querySelector('#cnt');
+    const desc = doc.getElementsByTagName('description');
+    const link = doc.getElementsByTagName('link');
+    const parent = document.querySelector('.posts');
     let arr = Array.from(items);
+    let descript = Array.from(desc);
+    let l = Array.from(link);
 
-    for (let i = 0; i < items.length; i++) {
-      console.log(arr[i].innerHTML);
-      const element = document.createElement('p');
+    const feed = document.querySelector('.feeds');
+    const feeds = document.createElement('div');
+    feeds.innerHTML = arr[0].innerHTML;
+    const h3 = document.createElement('h3');
+    h3.innerHTML = 'Feeds';
+    feed.appendChild(feeds).appendChild(h3);
+
+    for (let i = 1; i < items.length; i++) {
+      console.log(descript[i].innerHTML);
+      const element = document.createElement('a');
+      element.setAttribute('href', l[i].innerHTML);
       element.innerHTML = arr[i].innerHTML;
       parent.appendChild(element);
     }
