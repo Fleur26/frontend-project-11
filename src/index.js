@@ -100,7 +100,9 @@ fetch(`https://allorigins.hexlet.app/get?url=${encodeURIComponent(url)}`)
 
     for (let i = 0; i < items.length; i++) {
       console.log(arr[i].innerHTML);
-      parent.appendChild(arr[i].cloneNode(true));
+      const element = document.createElement('p');
+      element.innerHTML = arr[i].innerHTML;
+      parent.appendChild(element);
     }
   });
 }
