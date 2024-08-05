@@ -108,13 +108,16 @@ fetch(`https://allorigins.hexlet.app/get?url=${encodeURIComponent(url)}`)
     const h3 = document.createElement('h3');
     h3.innerHTML = 'Feeds';
     feed.appendChild(feeds).appendChild(h3);
+    const elementt = document.createElement('ul');
+    parent.appendChild(elementt);
 
     for (let i = 1; i < items.length; i++) {
       console.log(descript[i].innerHTML);
+      const p = document.createElement('li');
       const element = document.createElement('a');
       element.setAttribute('href', l[i].innerHTML);
       element.innerHTML = arr[i].innerHTML;
-      parent.appendChild(element);
+      parent.appendChild(p).appendChild(element);
     }
   });
 }
