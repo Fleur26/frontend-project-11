@@ -93,7 +93,8 @@ fetch(`https://allorigins.hexlet.app/get?url=${encodeURIComponent(url)}`)
     throw new Error('Network response was not ok.')
   })
   .then(data => {
-    const doc = parser.parseFromString(data.contents, "text/html");
+    const doc = parser.parseFromString(data.contents, "text/xml");
+    
     const items = doc.getElementsByTagName('title');
     const desc = doc.getElementsByTagName('description');
     const link = doc.getElementsByTagName('link');
@@ -107,7 +108,8 @@ fetch(`https://allorigins.hexlet.app/get?url=${encodeURIComponent(url)}`)
     feeds.innerHTML = arr[0].innerHTML;
     const h3 = document.createElement('h3');
     h3.innerHTML = 'Feeds';
-    feed.appendChild(feeds).appendChild(h3);
+    feed.appendChild(h3);
+    feed.appendChild(feeds);
     const elementt = document.createElement('ul');
     parent.appendChild(elementt);
 
