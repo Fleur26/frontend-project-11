@@ -111,7 +111,6 @@ fetch(`https://allorigins.hexlet.app/get?url=${encodeURIComponent(url)}`)
     feeds.innerHTML = arr[0].textContent;
     const h3 = document.createElement('h3');
     h3.innerHTML = 'Feeds';
-    feed.appendChild(h3);
     feed.appendChild(feeds);
     const elementt = document.createElement('ul');
     parent.appendChild(elementt);
@@ -127,8 +126,14 @@ fetch(`https://allorigins.hexlet.app/get?url=${encodeURIComponent(url)}`)
       button.setAttribute('class', 'btnRead');
       button.innerHTML = i18next.t('readButton');;
       element.innerHTML = arr[i].textContent;
-      parent.appendChild(p).appendChild(element).appendChild(button);
-      
+      parent.appendChild(p).appendChild(element);
+      parent.appendChild(button);
+      button.addEventListener('click',(e) =>{
+        const result = confirm(descript[i].textContent);
+        if(result){
+          window.location.replace(l[i].textContent);
+        }
+      })
     }
   });
 }
