@@ -10,7 +10,7 @@ const state = {
     state: 'valid',
     data: {
       url: '',
-      links: []
+      links: [],
     },
     errors: [],
   },
@@ -82,7 +82,10 @@ const form = document.querySelector('.rss-form ');
   render(state);
   input.focus();
   input.value = '';
-  parsing(state.form.data.url)
+  parsing(state.form.data.url);
+  state.form.data.links.map((link) =>{
+  setTimeout(parsing(link), 5000);
+})
 })
 
 function parsing (url){
@@ -94,18 +97,18 @@ fetch(`https://allorigins.hexlet.app/get?url=${encodeURIComponent(url)}`)
   })
   .then(data => {
     const doc = parser.parseFromString(data.contents, "text/xml");
-    
     const items = doc.getElementsByTagName('title');
     const desc = doc.getElementsByTagName('description');
     const link = doc.getElementsByTagName('link');
     const parent = document.querySelector('.posts');
     let arr = Array.from(items);
+    state.form.data.posts = arr;
     let descript = Array.from(desc);
     let l = Array.from(link);
 
     const feed = document.querySelector('.feeds');
     const feeds = document.createElement('div');
-    feeds.innerHTML = arr[0].innerHTML;
+    feeds.innerHTML = arr[0].textContent;
     const h3 = document.createElement('h3');
     h3.innerHTML = 'Feeds';
     feed.appendChild(h3);
@@ -117,9 +120,18 @@ fetch(`https://allorigins.hexlet.app/get?url=${encodeURIComponent(url)}`)
       console.log(descript[i].innerHTML);
       const p = document.createElement('li');
       const element = document.createElement('a');
-      element.setAttribute('href', l[i].innerHTML);
-      element.innerHTML = arr[i].innerHTML;
-      parent.appendChild(p).appendChild(element);
+      element.setAttribute('href', l[i].textContent);
+      element.setAttribute('id', i);
+      
+      const button = document.createElement('button');
+      button.setAttribute('class', 'btnRead');
+      button.innerHTML = i18next.t('readButton');;
+      element.innerHTML = arr[i].textContent;
+      parent.appendChild(p).appendChild(element).appendChild(button);
+      
     }
   });
 }
+
+
+
