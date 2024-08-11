@@ -85,6 +85,24 @@ const form = document.querySelector('.rss-form ');
   parsing(state.form.data.url);
   state.form.data.links.map((link) =>{
   setTimeout(parsing(link), 5000);
+  const modalWindow = document.createElement('div');
+        modalWindow.innerHTML = `<div class="modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>`;
 })
 })
 
@@ -122,6 +140,8 @@ fetch(`https://allorigins.hexlet.app/get?url=${encodeURIComponent(url)}`)
       element.setAttribute('href', l[i].textContent);
       element.setAttribute('id', i);
       
+      
+
       const button = document.createElement('button');
       button.setAttribute('class', 'btnRead');
       button.innerHTML = i18next.t('readButton');;
@@ -129,10 +149,28 @@ fetch(`https://allorigins.hexlet.app/get?url=${encodeURIComponent(url)}`)
       parent.appendChild(p).appendChild(element);
       parent.appendChild(button);
       button.addEventListener('click',(e) =>{
-        const result = confirm(descript[i].textContent);
-        if(result){
-          window.location.replace(l[i].textContent);
-        }
+        //const result = confirm(descript[i].textContent);
+        //if(result){
+        //  window.location.replace(l[i].textContent);
+        //}
+
+        
+var exampleModal = document.getElementsByClassName('modal');
+exampleModal.addEventListener('show.bs.modal', function (event) {
+  // Button that triggered the modal
+  var button = event.relatedTarget;
+  // Extract info from data-bs-* attributes
+  var recipient = button.getAttribute('btnRead');
+  // If necessary, you could initiate an AJAX request here
+  // and then do the updating in a callback.
+  //
+  // Update the modal's content.
+  var modalTitle = exampleModal.querySelector('.modal-title');
+  var modalBodyInput = exampleModal.querySelector('.modal-body input');
+
+  modalTitle.textContent = 'New message to ' + recipient;
+  modalBodyInput.value = recipient;
+})
       })
     }
   });
