@@ -1,6 +1,6 @@
 import i18next from 'i18next';
-import en from '../locales/en.json';
-import ru from '../locales/ru.json';
+import en from '../locales/en';
+import ru from '../locales/ru';
 
 const promise = i18next.init({
     lng: 'ru', // if you're using a language detector, do not define the lng option

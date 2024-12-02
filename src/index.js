@@ -107,7 +107,7 @@ fetch(`https://allorigins.hexlet.app/get?url=${encodeURIComponent(url)}`)
 
       const button = document.createElement('button');
       button.setAttribute('class', 'btnRead');
-      button.innerHTML = i18next.t('readButton');;
+      button.innerHTML = translator.t('readButton');;
       element.innerHTML = arr[i].textContent;
       parent.appendChild(p).appendChild(element);
       parent.appendChild(button);
