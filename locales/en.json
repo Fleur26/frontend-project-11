@@ -9,6 +9,7 @@
   "example": "Example: https://lorem-rss.hexlet.app/feed",
     "url": "must be a url",
     "null": "input cannot be null",
-    "string": "cannot be number"
+    "string": "cannot be number",
+    "feeds": "Feeds"
   
 }}

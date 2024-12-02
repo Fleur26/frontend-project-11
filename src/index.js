@@ -1,9 +1,9 @@
 import * as yup from 'yup';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import i18next from 'i18next';
-import en from '../locales/en.json'
-import ru from '../locales/ru.json'
+import * as translator from './view.js';
+import onChange from 'on-change';
+
 
 const state = {
   form: {
@@ -16,28 +16,7 @@ const state = {
   },
 };
 
-const promise = i18next.init({
-  lng: 'en', // if you're using a language detector, do not define the lng option
-  debug: true,
-  resources: {
-    en,
-    ru
-  }
-})
-.then(function(t) {
-  // initialized and ready to go!
-  document.getElementsByTagName('title')[0].innerHTML = i18next.t('title');
-  document.getElementById('hAgregattor').innerHTML = i18next.t('mainHeader');
-  document.getElementsByClassName('lead')[0].innerHTML = i18next.t('leadText');
-  document.getElementById('btnSub').innerHTML = i18next.t('add');
-  document.getElementById('holdInput').innerHTML = i18next.t('link');
-  document.getElementById('holdInput').innerHTML = i18next.t('link');
-  document.getElementById('exmpl').innerHTML = i18next.t('example');
-
-})
-.catch(e => {
-console.log(e);
-})
+translator();
 
 function render (state) {
   const input = document.querySelector('#url-input');
@@ -53,7 +32,7 @@ function render (state) {
   }
 }
 
-function validation (url) {
+function validation (url, state) {
   let schema = yup.string('string').url('url').nullable('null')
   .validate(url)
   .then((e => {
@@ -65,7 +44,7 @@ function validation (url) {
     state.form.state = 'invalid'
     state.form.errors = e; 
     console.log(e);
-    console.log("ERRROR: " + i18next.t(e));
+    console.log("ERRROR: " + translator.t(e));
   }));
   console.log(schema);
   return schema;
