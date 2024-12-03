@@ -1,8 +1,7 @@
-import * as yup from 'yup';
+import './styles.scss';
 import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import * as translator from './view.js';
 import onChange from 'on-change';
+import render from './view.js';
 
 
 const state = {
@@ -18,19 +17,28 @@ const state = {
 
 translator();
 
-function render (state) {
-  const input = document.querySelector('#url-input');
-  const submit = document.querySelector('.rss-form ');
+const renderFeeds = (state, element) => {
+  const listGroup = document.createElement('ul');
+  listGroup.classList.add('list-group', 'border-0', 'rounded-0');
 
-  submit.disabled = state.form.state === 'valid';
-  if (state.form.state === 'valid'){
-    input.classList.remove('is-invalid')
-  }
-  else{
-    input.classList.add('is-invalid');
-    console.log(state.form.state);
-  }
-}
+  state.content.feeds.forEach((feed) => {
+    const listGroupItem = document.createElement('li');
+    listGroupItem.classList.add('list-group-item', 'border-0', 'border-end-0');
+
+    const h3 = document.createElement('h3');
+    h3.classList.add('h6', 'm-0');
+    h3.textContent = feed.title;
+
+    const p = document.createElement('p');
+    p.classList.add('m-0', 'small', 'text-black-50');
+    p.textContent = feed.description;
+
+    listGroupItem.append(h3, p);
+    listGroup.append(listGroupItem);
+  });
+  element.append(listGroup);
+};
+
 
 function validation (url, state) {
   let schema = yup.string('string').url('url').nullable('null')
