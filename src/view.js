@@ -56,31 +56,23 @@ const promise = i18next.init({
     element.append(listGroup);
   };
 
-  const renderPosts = (state, element, translate) => {
+  const renderFeeds = (state, element) => {
     const listGroup = document.createElement('ul');
     listGroup.classList.add('list-group', 'border-0', 'rounded-0');
   
-    state.content.posts.forEach((post) => {
+    state.content.feeds.forEach((feed) => {
       const listGroupItem = document.createElement('li');
-      listGroupItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0');
+      listGroupItem.classList.add('list-group-item', 'border-0', 'border-end-0');
   
-      const a = document.createElement('a');
-      a.classList.add(state.uiState.visitedLinksIds.has(post.id) ? ('fw-normal', 'link-secondary') : 'fw-bold');
-      a.href = post.link;
-      a.target = '_blank';
-      a.rel = 'noopener noreferrer';
-      a.setAttribute('data-id', post.id);
-      a.textContent = post.title;
+      const h3 = document.createElement('h3');
+      h3.classList.add('h6', 'm-0');
+      h3.textContent = feed.title;
   
-      const button = document.createElement('button');
-      button.classList.add('btn', 'btn-outline-primary', 'btn-sm');
-      button.type = 'button';
-      button.setAttribute('data-id', post.id);
-      button.setAttribute('data-bs-toggle', 'modal');
-      button.setAttribute('data-bs-target', '#modal');
-      button.textContent = translate('preview');
+      const p = document.createElement('p');
+      p.classList.add('m-0', 'small', 'text-black-50');
+      p.textContent = feed.description;
   
-      listGroupItem.append(a, button);
+      listGroupItem.append(h3, p);
       listGroup.append(listGroupItem);
     });
     element.append(listGroup);
