@@ -1,21 +1,33 @@
 import './styles.scss';
 import 'bootstrap';
+import { setLocale, string } from 'yup';
+import { uniqueId } from 'lodash';
 import onChange from 'on-change';
+import i18n from 'i18next';
+import axios from 'axios';
+
+import ru from './locales/ru.js';
 import render from './view.js';
+import parse from './rssparser.js';
 
+const timeout = 5000;
 
-const state = {
-  form: {
-    state: 'valid',
-    data: {
-      url: '',
-      links: [],
-    },
-    errors: [],
-  },
+const validate = (url, links) => {
+  const schema = string()
+    .trim()
+    .required()
+    .url()
+    .notOneOf(links);
+  return schema.validate(url);
 };
 
-translator();
+const getAxiosResponse = (url) => {
+  const allOriginsLink = 'https://allorigins.hexlet.app/get';
+  const preparedURL = new URL(allOriginsLink);
+  preparedURL.searchParams.set('disableCache', 'true');
+  preparedURL.searchParams.set('url', url);
+  return axios.get(preparedURL);
+};
 
 const renderFeeds = (state, element) => {
   const listGroup = document.createElement('ul');
@@ -39,6 +51,14 @@ const renderFeeds = (state, element) => {
   element.append(listGroup);
 };
 
+const i18nInstance = i18n.createInstance();
+  i18nInstance.init({
+    lng: 'ru',
+    debug: false,
+    resources: {
+      ru,
+    },
+  })
 
 function validation (url, state) {
   let schema = yup.string('string').url('url').nullable('null')
