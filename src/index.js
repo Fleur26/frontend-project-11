@@ -29,125 +29,126 @@ const getAxiosResponse = (url) => {
   return axios.get(preparedURL);
 };
 
-const renderFeeds = (state, element) => {
-  const listGroup = document.createElement('ul');
-  listGroup.classList.add('list-group', 'border-0', 'rounded-0');
-
-  state.content.feeds.forEach((feed) => {
-    const listGroupItem = document.createElement('li');
-    listGroupItem.classList.add('list-group-item', 'border-0', 'border-end-0');
-
-    const h3 = document.createElement('h3');
-    h3.classList.add('h6', 'm-0');
-    h3.textContent = feed.title;
-
-    const p = document.createElement('p');
-    p.classList.add('m-0', 'small', 'text-black-50');
-    p.textContent = feed.description;
-
-    listGroupItem.append(h3, p);
-    listGroup.append(listGroupItem);
-  });
-  element.append(listGroup);
+const addPosts = (feedId, posts, state) => {
+  const preparedPosts = posts.map((post) => ({ ...post, feedId, id: uniqueId() }));
+  state.content.posts.push(...preparedPosts);
 };
 
-const i18nInstance = i18n.createInstance();
+const fetchNewPosts = (state) => {
+  const promises = state.content.feeds.map(({ link, id }) => getAxiosResponse(link)
+    .then((response) => {
+      const { posts } = parse(response.data.contents);
+      const alreadyAddedLinks = state.content.posts.map((post) => post.link);
+      const newPosts = posts.filter((post) => !alreadyAddedLinks.includes(post.link));
+      if (newPosts.length > 0) {
+        addPosts(id, newPosts, state);
+      }
+    })
+    .catch((error) => {
+      console.error(`Error fetching posts from ${link}:`, error);
+    }));
+  Promise.allSettled(promises)
+    .finally(() => {
+      setTimeout(() => fetchNewPosts(state), timeout);
+    });
+};
+
+const app = () => {
+  const i18nInstance = i18n.createInstance();
   i18nInstance.init({
     lng: 'ru',
     debug: false,
     resources: {
       ru,
     },
-  })
+  }).then((translate) => {
+    const elements = {
+      form: document.querySelector('.rss-form'),
+      feedback: document.querySelector('.feedback'),
+      input: document.querySelector('#url-input'),
+      btn: document.querySelector('button[type="submit"]'),
+      posts: document.querySelector('.posts'),
+      feeds: document.querySelector('.feeds'),
+      modal: {
+        modalElement: document.querySelector('.modal'),
+        title: document.querySelector('.modal-title'),
+        body: document.querySelector('.modal-body'),
+        btn: document.querySelector('.full-article'),
+      },
+    };
 
-function validation (url, state) {
-  let schema = yup.string('string').url('url').nullable('null')
-  .validate(url)
-  .then((e => {
-    state.form.data.links.push(url); 
-    console.log(state.form.data.links);
-    state.form.state = 'valid';
-}))
-  .catch((e => {
-    state.form.state = 'invalid'
-    state.form.errors = e; 
-    console.log(e);
-    console.log("ERRROR: " + translator.t(e));
-  }));
-  console.log(schema);
-  return schema;
-}
+    setLocale({
+      mixed: { notOneOf: 'alreadyAddedRSS' },
+      string: { url: 'invalidUrl', required: 'mustNotBeEmpty' },
+    });
 
-const container= document.querySelector('#sm');
+    const initialState = {
+      process: {
+        state: 'filling',
+        error: null,
+      },
+      content: {
+        feeds: [],
+        posts: [],
+      },
+      uiState: {
+        visitedLinksIds: new Set(),
+        modalPostId: null,
+      },
+    };
 
-const form = document.querySelector('.rss-form ');
-  form.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const input = document.querySelector('#url-input');
-  state.form.data.url = input.value;
-  validation(state.form.data.url);
-  render(state);
-  input.focus();
-  input.value = '';
-  parsing(state.form.data.url);
-  state.form.data.links.map((link) =>{
-  setTimeout(parsing(link), 5000);
-  
-})
-})
+    const watchedState = onChange(initialState, render(initialState, elements, translate));
 
-function parsing (url){
-const parser = new DOMParser();
-fetch(`https://allorigins.hexlet.app/get?url=${encodeURIComponent(url)}`)
-  .then(response => {
-    if (response.ok) return response.json()
-    throw new Error('Network response was not ok.')
-  })
-  .then(data => {
-    const doc = parser.parseFromString(data.contents, "text/xml");
-    const items = doc.getElementsByTagName('title');
-    const desc = doc.getElementsByTagName('description');
-    const link = doc.getElementsByTagName('link');
-    const parent = document.querySelector('.posts');
-    let arr = Array.from(items);
-    state.form.data.posts = arr;
-    let descript = Array.from(desc);
-    let l = Array.from(link);
+    fetchNewPosts(watchedState);
 
-    const feed = document.querySelector('.feeds');
-    const feeds = document.createElement('div');
-    feeds.innerHTML = arr[0].textContent;
-    const h3 = document.createElement('h3');
-    h3.innerHTML = 'Feeds';
-    feed.appendChild(h3);
-    feed.appendChild(feeds);
-    const elementt = document.createElement('ul');
-    parent.appendChild(elementt);
-
-    for (let i = 1; i < items.length; i++) {
-      console.log(descript[i].innerHTML);
-      const p = document.createElement('li');
-      const element = document.createElement('a');
-      element.setAttribute('href', l[i].textContent);
-      element.setAttribute('id', i);
-      
-      
-
-      const button = document.createElement('button');
-      button.setAttribute('class', 'btnRead');
-      button.innerHTML = translator.t('readButton');;
-      element.innerHTML = arr[i].textContent;
-      parent.appendChild(p).appendChild(element);
-      parent.appendChild(button);
-      button.addEventListener('click',(e) =>{
-       const result = confirm(descript[i].textContent);
-       if(result){
-          window.location.replace(l[i].textContent);
-        }
-      })
-    }
+    elements.form.addEventListener('input', () => {
+      // Проверяем текущее значение свойства state
+      if (watchedState.process.state !== 'filling') {
+          // Если текущее значение не равно 'filling', то меняем свойства
+          watchedState.process.error = null;
+          watchedState.process.state = 'filling';
+      }
   });
-}
+  
 
+    elements.form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const formData = new FormData(elements.form);
+      const url = formData.get('url');
 
+      validate(url, watchedState.content.feeds.map(({ link }) => link))
+        .then((validUrl) => {
+          watchedState.process.state = 'sending';
+          return getAxiosResponse(validUrl);
+        })
+        .then((response) => {
+          const { feed, posts } = parse(response.data.contents);
+          const feedId = uniqueId();
 
+          watchedState.content.feeds.push({ ...feed, feedId, link: url });
+          addPosts(feedId, posts, watchedState);
+          watchedState.process.state = 'finished';
+        })
+        .catch((error) => {
+          const errorMessage = error.message ?? 'defaultError';
+          watchedState.process.error = errorMessage;
+          watchedState.process.state = 'error';
+        });
+    });
+
+    elements.modal.modalElement.addEventListener('show.bs.modal', (e) => {
+      const postId = e.relatedTarget.getAttribute('data-id');
+      watchedState.uiState.visitedLinksIds.add(postId);
+      watchedState.uiState.modalPostId = postId;
+    });
+
+    elements.posts.addEventListener('click', (e) => {
+      const postId = e.target.dataset.id;
+      if (postId) {
+        watchedState.uiState.visitedLinksIds.add(postId);
+      }
+    });
+  });
+};
+
+export default app;
