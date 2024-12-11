@@ -102,9 +102,7 @@ const app = () => {
     fetchNewPosts(watchedState);
 
     elements.form.addEventListener('input', () => {
-      // Проверяем текущее значение свойства state
       if (watchedState.process.state !== 'filling') {
-          // Если текущее значение не равно 'filling', то меняем свойства
           watchedState.process.error = null;
           watchedState.process.state = 'filling';
       }
