@@ -8,7 +8,9 @@ import axios from 'axios';
 
 import ru from './locales/ru.js';
 import render from './view.js';
-import parse from './rssparser.js';
+import parse from './rss-parser.js';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const timeout = 5000;
 

@@ -1,3 +1,3 @@
-import app from 'mainfunctions.js';
+import app from './app.js';
 
 app();
