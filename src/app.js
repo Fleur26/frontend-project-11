@@ -48,7 +48,7 @@ const fetchNewPosts = (state) => {
     .catch((error) => {
       console.error(`Error fetching posts from ${link}:`, error);
     }));
-  Promise.allSettled(promises)
+  Promise.allSettled(promises, timeout)
     .finally(() => {
       setTimeout(() => fetchNewPosts(state), timeout);
     });

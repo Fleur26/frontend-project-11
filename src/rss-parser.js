@@ -2,7 +2,7 @@ const parse = (data) => {
     const parser = new DOMParser();
     const parsedData = parser.parseFromString(data, 'application/xml');
     const errorNode = parsedData.querySelector('parsererror');
-    if (errorNode) throw new Error('parseError');
+    if (errorNode) throw new Error(errorNode.textContent);
     const channel = parsedData.querySelector('channel');
     const title = channel.querySelector('title').textContent;
     const description = channel.querySelector('description').textContent;
