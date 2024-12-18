@@ -1,4 +1,3 @@
-import './styles.scss';
 import 'bootstrap';
 import { setLocale, string } from 'yup';
 import { uniqueId } from 'lodash';
