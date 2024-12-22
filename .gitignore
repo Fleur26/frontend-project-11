@@ -7,5 +7,4 @@ dist
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-/home/valeria/frontend-project-11/webpack.config.js
 /public/*
