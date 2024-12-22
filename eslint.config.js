@@ -1,9 +1,10 @@
+import globals from "globals";
+import pluginJs from "@eslint/js";
+
+
+/** @type {import('eslint').Linter.Config[]} */
 export default [
-  {
-      files: ["**/*.js", "**/*.cjs", "**/*.mjs"],
-      rules: {
-          "prefer-const": "off",
-          "no-constant-binary-expression": "error"
-      },
-  }
+  {languageOptions: { globals: globals.browser }},
+  pluginJs.configs.recommended,
+  { ignores: ["public/*", "webpack.config.js"],},
 ];
