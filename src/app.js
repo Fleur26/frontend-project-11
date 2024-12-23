@@ -101,13 +101,6 @@ const app = () => {
     const watchedState = onChange(initialState, render(initialState, elements, translate));
 
     fetchNewPosts(watchedState);
-
-    elements.form.addEventListener('input', () => {
-      if (watchedState.process.state !== 'filling') {
-          watchedState.process.error = null;
-          watchedState.process.state = 'filling';
-      }
-  });
   
 
     elements.form.addEventListener('submit', (e) => {

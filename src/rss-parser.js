@@ -6,7 +6,7 @@ const parse = (data) => {
     const channel = parsedData.querySelector('channel');
     const title = channel.querySelector('title').textContent;
     const description = channel.querySelector('description').textContent;
-    const feed = { title, description };
+    const feed = { title, description, posts };
     const items = Array.from(parsedData.querySelectorAll('item'));
     const posts = items.map((item) => {
       const postLink = item.querySelector('link').textContent;

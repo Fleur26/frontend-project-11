@@ -32,8 +32,7 @@
     "style-loader": "^4.0.0",
     "webpack": "^5.97.1",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.0.4",
-    "workbox-webpack-plugin": "^7.1.0"
+    "webpack-dev-server": "^5.0.4"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
