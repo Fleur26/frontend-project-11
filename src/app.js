@@ -114,7 +114,7 @@ const app = () => {
           return getAxiosResponse(validUrl);
         })
         .then((response) => {
-          const { feed, posts } = parse(response.data.contents);
+          const { feed, description, posts } = parse(response.data.contents);
           const feedId = uniqueId();
 
           watchedState.content.feeds.push({ ...feed, feedId, link: url });
