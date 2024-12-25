@@ -60,7 +60,8 @@ const makeContainer = (title, state, items, translate) => {
   elements[title].append(card);
   containerMapping[title](card);
 };
-const errorHandler = (elements, error, translate) => {
+const errorHandler = (items, error, translate) => {
+  const elements = { ...items };
   elements.feedback.classList.remove('text-success');
   elements.feedback.classList.add('text-danger');
   elements.feedback.textContent = translate(`errors.${error.replace(/ /g, '')}`);
@@ -68,7 +69,8 @@ const errorHandler = (elements, error, translate) => {
   elements.btn.disabled = false;
   elements.input.disabled = false;
 };
-const finishHandler = (elements, state, translate) => {
+const finishHandler = (items, state, translate) => {
+  const elements = { ...items };
   elements.feedback.textContent = '';
   makeContainer('posts', state, elements, translate);
   makeContainer('feeds', state, elements, translate);
@@ -80,7 +82,8 @@ const finishHandler = (elements, state, translate) => {
   elements.feedback.classList.add('text-success');
   elements.feedback.textContent = translate('success');
 };
-const openModalWindow = (elements, state, postId) => {
+const openModalWindow = (items, state, postId) => {
+  const elements = { ...items };
   const post = state.content.posts
     .find(({ id }) => id === postId);
   const { title, description, link } = post;
@@ -88,7 +91,8 @@ const openModalWindow = (elements, state, postId) => {
   elements.modal.body.textContent = description;
   elements.modal.btn.href = link;
 };
-const render = (state, elements, translate) => (path, value) => {
+const render = (state, items, translate) => (path, value) => {
+  const elements = { ...items };
   const renderMapping = {
     filling: () => {
       elements.feedback.classList.remove('text-danger');
