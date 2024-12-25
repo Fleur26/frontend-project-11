@@ -1,4 +1,3 @@
-
 const renderPosts = (state, element, translate) => {
   const listGroup = document.createElement('ul');
   listGroup.classList.add('list-group', 'border-0', 'rounded-0');
