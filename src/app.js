@@ -91,6 +91,7 @@ const app = () => {
       content: {
         feeds: [],
         posts: [],
+        description: [],
       },
       uiState: {
         visitedLinksIds: new Set(),
@@ -101,7 +102,6 @@ const app = () => {
     const watchedState = onChange(initialState, render(initialState, elements, translate));
 
     fetchNewPosts(watchedState);
-  
 
     elements.form.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -120,9 +120,11 @@ const app = () => {
           watchedState.content.feeds.push({ ...feed, feedId, link: url });
           addPosts(feedId, posts, watchedState);
           watchedState.process.state = 'finished';
+          watchedState.process.state = 'finished';
+          watchedState.content.description.push(description);
         })
         .catch((error) => {
-          const errorMessage = error.message ?? 'defaultError';
+          const errorMessage = error.message ?? 'unkown';
           watchedState.process.error = errorMessage;
           watchedState.process.state = 'error';
         });

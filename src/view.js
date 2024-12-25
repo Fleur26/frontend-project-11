@@ -29,7 +29,6 @@ const renderPosts = (state, element, translate) => {
   element.append(listGroup);
 };
 
-
 const renderFeeds = (state, element) => {
   const listGroup = document.createElement('ul');
   listGroup.classList.add('list-group', 'border-0', 'rounded-0');
@@ -76,7 +75,6 @@ const makeContainer = (title, state, elements, translate) => {
   containerMapping[title](card);
 };
 
-
 const errorHandler = (elements, error, translate) => {
   elements.feedback.classList.remove('text-success');
   elements.feedback.classList.add('text-danger');
@@ -85,7 +83,6 @@ const errorHandler = (elements, error, translate) => {
   elements.btn.disabled = false;
   elements.input.disabled = false;
 };
-
 
 const finishHandler = (elements, state, translate) => {
   elements.feedback.textContent = '';
@@ -103,7 +100,6 @@ const finishHandler = (elements, state, translate) => {
   elements.feedback.textContent = translate('success');
 };
 
-
 const openModalWindow = (elements, state, postId) => {
   const post = state.content.posts
     .find(({ id }) => id === postId);
@@ -112,7 +108,6 @@ const openModalWindow = (elements, state, postId) => {
   elements.modal.body.textContent = description;
   elements.modal.btn.href = link;
 };
-
 
 const render = (state, elements, translate) => (path, value) => {
   const renderMapping = {
