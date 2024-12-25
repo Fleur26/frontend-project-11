@@ -12,7 +12,7 @@ export default [
     },
     rules: {
       'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 1 }],
-      'no-param-reassign': ['error', { 'props': false }], // add
+      'no-param-reassign': ['error', { props: false }], 
       'eol-last': ['error', 'always'],
     },
   },

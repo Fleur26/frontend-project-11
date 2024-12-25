@@ -19,6 +19,6 @@ const parse = (data) => {
     };
   });
   return { feed, posts };
-}
+};
 
 export default parse;

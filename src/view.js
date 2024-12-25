@@ -41,8 +41,8 @@ const renderFeeds = (state, element) => {
   });
   element.append(listGroup);
 };
-
-const makeContainer = (title, state, elements, translate) => {
+const makeContainer = (title, state, items, translate) => {
+  const elements = { ...items };
   const containerMapping = {
     posts: (element) => renderPosts(state, element, translate),
     feeds: (element) => renderFeeds(state, element),
@@ -60,7 +60,6 @@ const makeContainer = (title, state, elements, translate) => {
   elements[title].append(card);
   containerMapping[title](card);
 };
-
 const errorHandler = (elements, error, translate) => {
   elements.feedback.classList.remove('text-success');
   elements.feedback.classList.add('text-danger');
@@ -69,7 +68,6 @@ const errorHandler = (elements, error, translate) => {
   elements.btn.disabled = false;
   elements.input.disabled = false;
 };
-
 const finishHandler = (elements, state, translate) => {
   elements.feedback.textContent = '';
   makeContainer('posts', state, elements, translate);
@@ -82,7 +80,6 @@ const finishHandler = (elements, state, translate) => {
   elements.feedback.classList.add('text-success');
   elements.feedback.textContent = translate('success');
 };
-
 const openModalWindow = (elements, state, postId) => {
   const post = state.content.posts
     .find(({ id }) => id === postId);
@@ -91,7 +88,6 @@ const openModalWindow = (elements, state, postId) => {
   elements.modal.body.textContent = description;
   elements.modal.btn.href = link;
 };
-
 const render = (state, elements, translate) => (path, value) => {
   const renderMapping = {
     filling: () => {
@@ -106,7 +102,6 @@ const render = (state, elements, translate) => (path, value) => {
     error: () => errorHandler(elements, state.process.error, translate),
     finished: () => finishHandler(elements, state, translate),
   };
-
   switch (path) {
     case 'process.state':
       renderMapping[state.process.state]();
@@ -123,5 +118,4 @@ const render = (state, elements, translate) => (path, value) => {
       break;
   }
 };
-
 export default render;
