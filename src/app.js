@@ -122,7 +122,7 @@ const app = () => {
           watchedState.process.state = 'finished';
         })
         .catch((error) => {
-          const errorMessage = error.message ?? 'unkown';
+          const errorMessage = error.isParsingError ? 'errors.parseError' : 'errors.defaultError';
           watchedState.process.error = errorMessage;
           watchedState.process.state = 'error';
         });
