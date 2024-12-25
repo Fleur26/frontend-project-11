@@ -12,9 +12,9 @@ export default [
     },
     rules: {
       'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 1 }],
-      'no-param-reassign': ['error', { props: false }],
+      'no-param-reassign': ['error', { 'props': false }], // add
       'eol-last': ['error', 'always'],
     },
   },
-  pluginJs.configs.recommended
+  pluginJs.configs.recommended,
 ];
