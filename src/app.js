@@ -91,7 +91,6 @@ const app = () => {
       content: {
         feeds: [],
         posts: [],
-        description: [],
       },
       uiState: {
         visitedLinksIds: new Set(),
@@ -114,14 +113,13 @@ const app = () => {
           return getAxiosResponse(validUrl);
         })
         .then((response) => {
-          const { feed, description, posts } = parse(response.data.contents);
+          const { feed, posts } = parse(response.data.contents);
           const feedId = uniqueId();
 
           watchedState.content.feeds.push({ ...feed, feedId, link: url });
           addPosts(feedId, posts, watchedState);
           watchedState.process.state = 'finished';
           watchedState.process.state = 'finished';
-          watchedState.content.description.push(description);
         })
         .catch((error) => {
           const errorMessage = error.message ?? 'unkown';
