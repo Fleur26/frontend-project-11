@@ -3,7 +3,7 @@ export default {
     success: 'Successfuly uploud',
     errors: {
       invalidUrl: 'URL invalid',
-      alreadyAddedRSS: 'Uou have this URL',
+      alreadyAddedRSS: 'You have this URL',
       parseError: 'RSS not valid',
       mustNotBeEmpty: 'RSS must be not null',
       NetworkError: 'Network Error',
