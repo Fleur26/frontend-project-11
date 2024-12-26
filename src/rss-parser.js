@@ -6,7 +6,7 @@ const parse = (data) => {
     const error = new Error(errorNode.textContent);
     error.isParsingError = true;
     throw error;
-  };
+  }
   const channel = parsedData.querySelector('channel');
   const title = channel.querySelector('title').textContent;
   const description = channel.querySelector('description').textContent;
