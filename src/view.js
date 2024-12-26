@@ -68,7 +68,7 @@ const errorHandler = (items, error, translate) => {
   const elements = { ...items };
   elements.feedback.classList.remove('text-success');
   elements.feedback.classList.add('text-danger');
-  elements.feedback.textContent = translate(`${error.replace(/ /g, '')}` === 'alreadyAddedRSS'? `errors.${error.replace(/ /g, '')}` : `${error.replace(/ /g, '')}`);
+  elements.feedback.textContent = translate(`errors.${error.replace(/ /g, '')}`);
   console.log(`${error.replace(/ /g, '')}`);
   if (error !== 'Network Error') elements.input.classList.add('is-invalid');
   elements.btn.disabled = false;

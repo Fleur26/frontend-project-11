@@ -122,8 +122,8 @@ const app = () => {
           watchedState.process.state = 'finished';
         })
         .catch((error) => {
-          const err = error.message ?? 'errors.defaultError';
-          const errorMessage = error.isParsingError ? 'errors.parseError' : err;
+          const err = error.message ?? 'defaultError';
+          const errorMessage = error.isParsingError ? 'parseError' : err;
           watchedState.process.error = errorMessage;
           watchedState.process.state = 'error';
         });
